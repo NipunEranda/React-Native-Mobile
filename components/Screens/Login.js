@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, Button, Image } from 'react-native';
+import UserObject from '../../Controller/UserController';
 
 const Login = ({ navigation }) => {
   const [enteredEmail, setEnteredEmail] = useState('');
@@ -14,9 +15,9 @@ const Login = ({ navigation }) => {
   }
 
   /*Login Validation Process*/
-  const LoginHandler = () => {
-    if (enteredEmail == 'Nipun' && enteredPassword == "1234") {
-      console.log("success!");
+  const LoginHandler = async () => {
+    var response = JSON.parse((await UserObject.login(enteredEmail, enteredPassword)).toString());
+    if (response.data.status == 200) {
       navigation.replace('Home');
       navigation.navigate("Home");
     } else {
